@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 /**
 * arrays and pointers
 * main - entry point
@@ -7,29 +8,39 @@
 
 int main(void)
 {
-	char gender[10] = {female, male};
+	char f[10] = "female";
+	char m[10] = "male";
+	char o[10] = "other";
 	char name[10];
 	char surname[10];
-	char i[10];
+	char fA[6] = "Mrs";
+	char mA[6] = "Mr";
+	char p[10];
 
 	printf("Name and Surname: ");
 	scanf("%s %s", name, surname);
 
-	printf("Gender: ");
-	scanf("%s", gender);
-	if (gender = "female")
+	printf("Are you male, female or other: ");
+	scanf("%10s", p);
+	
+	if (strcmp(p,f) == 0)
 	{
-		i = "Mrs.";
+	       printf("Hello %s %s\n", fA, surname);
 	}
-	if (gender = "male")
+	else if (strcmp(p,m) == 0)
 	{
-		i = "Mr.";
+		printf("Hello %s %s\n", mA, surname);
+	}
+	else if (strcmp(p,o) == 0)
+	{
+		printf("Please specify other: \n");
+		scanf("%s", o);
+		printf("Hello %s %s\n", name, surname);
 	}
 	else
 	{
-		printf("Invalid gender");
+		printf("invalid input");
 	}
-	printf("Hello %s %s\n", name, surname);
 	return (0);
 }
 
