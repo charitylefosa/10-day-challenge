@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<string.h>
 /**
-* arrays and pointers
-* main - entry point
+* main - Writes a program that inputs a name, surname and gender.
+* Thereafter greet the user formally and state the full names of the user.
+* Return: 0
 */
 
 
@@ -22,16 +23,15 @@ int main(void)
 
 	printf("Are you male, female or other: ");
 	scanf("%10s", p);
-	
-	if (strcmp(p,f) == 0)
+	if (strcmp(p, f) == 0)
 	{
-	       printf("Hello %s %s\n", fA, surname);
+		printf("Hello %s %s\n", fA, surname);
 	}
-	else if (strcmp(p,m) == 0)
+	else if (strcmp(p, m) == 0)
 	{
 		printf("Hello %s %s\n", mA, surname);
 	}
-	else if (strcmp(p,o) == 0)
+	else if (strcmp(p, o) == 0)
 	{
 		printf("Please specify other: \n");
 		scanf("%s", o);
