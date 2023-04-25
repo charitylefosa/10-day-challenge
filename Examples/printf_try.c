@@ -1,46 +1,87 @@
-#include <stdio.h>
+#include <stdio.h>produces output according to a format
 #include <stdarg.h>
-
-int print_m(int a, int b)
+/**
+*print_percent - handles percent conversion specifiers
+*Return: 1
+*
+*/
+int print_percent(void)
 {
-	
-
-
+	putchar('%');
+	return (1);
 }
-
-int print_c(char c)
+/**
+*print_char - handles character conversion specifiers
+*@c: string to be checked
+*Return: 1
+*/
+int print_char(char c)
 {
-
-
+	putchar(c);
+	return (1);
 }
-
-int print_s(const char *str)
+/**
+*print_string - handles string conversion specifiers
+*@s : string to be checked
+*Return: 1
+*/
+int print_string(const char *s)
 {
+	int count;
 
-
+	while (*s)
+	{
+		putchar(*s++);
+		count++;
+	}
+	return (count);
 }
+/**
+*_printf - count characters in string
+*@format: character string composed of zero or more directives
+*Return: count
+*
+*/
+int _printf(const char *format, ...)
+{
+	va_list args;
+	int count;
+	const char *p;
 
-int my_printf(const char *format, ...) {
-    va_list args = {c, s, %};
-    va_start(args, format);
-    int count = 0;
-    const char *p = format;
-    while (*p) {
-        if (*p == '%') {
-            // Ignore any formatting options and just print the string
-            putchar(*(++p));
-        } else {
-            putchar(*p);
-        }
-        ++p;
-        ++count;
-    }
-    va_end(args);
-    return count;
+	va_start(args, format);
+
+	p = format;
+	count = 0;
+	while (*p)
+	{
+		if (*p == '%')
+		{
+			p++;
+			switch (*p)
+			{
+				case '%':
+				count += print_percent();
+				break;
+				case 's':
+					count += print_char(va_arg(args, int));
+					break;
+				case 'c':
+					count += print_string(va_arg(args, const char *));
+					break;
+				default:
+					putchar(*p);
+					count++;
+					break;
+			}
+
+		}
+		else
+		{
+			putchar(*p);
+			count++;
+		}
+		p++;
+	}
+	va_end(args);
+	return (count);
 }
-
-int main() {
-    my_printf("Hello, %s!\n", "world");
-    return 0;
-}
-
