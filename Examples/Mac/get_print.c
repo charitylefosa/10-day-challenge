@@ -1,12 +1,29 @@
 #include "main.h"
+int print_c(va_list args, int count)
+{
+	int c = va_arg(args, int);
+	count += putchar(c);
+	return (count);
+}
 
+int print_s(va_list args, int count)
+{
+	char *s = va_arg(args, char*);
+
+	while (*s)
+	{
+		count += putchar(*s);
+		s++;
+	}
+	return (count);
+}
 
 int (*get_print(char s))(va_list, flags_t *)
 {
 	ph func_arr[] = {
-		{'i', print_int},
-		{'s', print_string},
-		{'c', print_char},
+		/*{'i', print_i},*/
+		{'s', print_s},
+		{'c', print_c},
 		/*{'d', print_int},
 		{'u', print_unsigned},
 		{'x', print_hex},
