@@ -1,4 +1,4 @@
-#include <stdio.h>produces output according to a format
+#include<stdio.h>
 #include <stdarg.h>
 /**
 *print_percent - handles percent conversion specifiers
@@ -12,7 +12,7 @@ int print_percent(void)
 }
 /**
 *print_char - handles character conversion specifiers
-*@c: string to be checked
+*@c: character to be printed
 *Return: 1
 */
 int print_char(char c)
@@ -22,13 +22,14 @@ int print_char(char c)
 }
 /**
 *print_string - handles string conversion specifiers
-*@s : string to be checked
+*@s : string to be printed
 *Return: 1
 */
 int print_string(const char *s)
 {
 	int count;
 
+	count =0;
 	while (*s)
 	{
 		putchar(*s++);
@@ -62,10 +63,10 @@ int _printf(const char *format, ...)
 				case '%':
 				count += print_percent();
 				break;
-				case 's':
+				case 'c':
 					count += print_char(va_arg(args, int));
 					break;
-				case 'c':
+				case 's':
 					count += print_string(va_arg(args, const char *));
 					break;
 				default:
