@@ -39,6 +39,31 @@ int _print_string(const char *s)
 	}
 	return (count);
 }
+
+int _print_int(int n)
+{
+	int count;
+	
+	count = 0;
+	if (n <0)
+	{
+		putchar('-');
+		n = -n;
+		count++;
+	}
+	else
+	{
+		n = n;
+	}
+	if (n / 10)
+	{
+		count += _print_int(n / 10);
+	}
+	putchar(n % 10 + '0');
+	count++;
+	return (count);
+}
+
 /**
 *_printf - count characters in string
 *@format: character string composed of zero or more directives
@@ -71,9 +96,14 @@ int _printf(const char *format, ...)
 				case 's':
 					count += _print_string(va_arg(args, const char *));
 					break;
+				case 'd':
+				case 'i':
+					count += _print_int(va_arg(args, int));
+					break;
 				default:
+					putchar('%');
 					putchar(*p);
-					count++;
+					count += 2;
 					break;
 			}
 
