@@ -12,40 +12,46 @@ int _print_percent(int i)
 	putchar(i);
 	return (1);
 }
+
 /**
-*_print_char - handles character conversion specifiers
-*@c: character to be printed
-*Return: 1
+*_print_char_string - handles string and character conversion specifiers
+*@args : va_list arguments
+*Return: number of characters printed
 */
-int _print_char(char c)
-{
-	putchar(c);
-	return (1);
-}
-/**
-*_print_string - handles string conversion specifiers
-*@s : string to be printed
-*Return: 1
-*/
-int _print_string(const char *s)
+int _print_char_string(va_list args)
 {
 	int count;
+	const char *s;
 
-	count =0;
-	while (*s)
+	count = 0;
+	if (va_arg(args, int) == 's')
 	{
-		putchar(*s++);
-		count++;
+		s = va_arg(args, const char *);
+		while (*s)
+		{
+			putchar(*s++);
+			count++;
+		}
+	}
+	else
+	{
+		putchar(va_arg(args, int));
+		count = 1;
 	}
 	return (count);
 }
-
+/**
+*_print_nt - handles integer conversion specifiers
+*@n: integer to be printed
+*Return: number of characters
+*
+*/
 int _print_int(int n)
 {
 	int count;
-	
+
 	count = 0;
-	if (n <0)
+	if (n < 0)
 	{
 		putchar('-');
 		n = -n;
@@ -63,6 +69,39 @@ int _print_int(int n)
 	count++;
 	return (count);
 }
+/**
+*handle_cov- handles conversion specifiers in va_list
+*@args: arguments
+*@p: conversion specifiers
+*Return: count
+*
+*/
+int handle_conv(va_list args, char p)
+{
+	int count;
+
+	count = 0;
+	switch (p)
+	{
+		case '%':
+			count += _print_percent(va_arg(args, int));
+			break;
+		case 'c':
+		case 's':
+			count += _print_char_string(args);
+			break;
+		case 'd':
+		case 'i':
+			count += _print_int(va_arg(args, int));
+			break;
+		default:
+			putchar('%');
+			putchar(p);
+			count += 2;
+			break;
+	}
+	return (count);
+}
 
 /**
 *_printf - count characters in string
@@ -75,6 +114,7 @@ int _printf(const char *format, ...)
 	va_list args;
 	int count;
 	const char *p;
+	char t;
 
 	va_start(args, format);
 
@@ -84,33 +124,13 @@ int _printf(const char *format, ...)
 	{
 		if (*p == '%')
 		{
-			p++;
-			switch (*p)
-			{
-				case '%':
-					count += _print_percent(va_arg(args, int));
-					break;
-				case 'c':
-					count += _print_char(va_arg(args, int));
-					break;
-				case 's':
-					count += _print_string(va_arg(args, const char *));
-					break;
-				case 'd':
-				case 'i':
-					count += _print_int(va_arg(args, int));
-					break;
-				default:
-					putchar('%');
-					putchar(*p);
-					count += 2;
-					break;
-			}
+			count += handle_conv(args, *(++p));
 
 		}
 		else
 		{
-			putchar(*p);
+			t = (char) *p;
+			putchar(t);
 			count++;
 		}
 		p++;
